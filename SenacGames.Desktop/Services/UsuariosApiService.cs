@@ -46,7 +46,7 @@ namespace SenacGames.Desktop.Services
         {
             try
             {
-                var usuarios = await _http.GetAsync<List<UsuarioResponseDto>>("/api/users");
+                var usuarios = await _http.GetAsync<List<UsuarioResponseDto>>("/api/usuarios");
                 return usuarios ?? new List<UsuarioResponseDto>();
             }
             catch
@@ -62,7 +62,7 @@ namespace SenacGames.Desktop.Services
         public async Task<(bool Success, UsuarioResponseDto? Usuario, string ErrorMessage)>
             CreateAsync(CreateUsuarioDto dto)
         {
-            return await _http.PostAsync<UsuarioResponseDto>("/api/users", dto);
+            return await _http.PostAsync<UsuarioResponseDto>("/api/usuarios", dto);
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace SenacGames.Desktop.Services
         /// </summary>
         public async Task<(bool Success, string ErrorMessage)> DeleteAsync(string userId)
         {
-            return await _http.DeleteAsync($"/api/users/{userId}");
+            return await _http.DeleteAsync($"/api/usuarios/{userId}");
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace SenacGames.Desktop.Services
             ResetPasswordDto dto)
         {
             var (success, _, error) = await _http.PostAsync<object>(
-                $"/api/users/{dto.UserId}/reset-password", dto);
+                $"/api/usuarios/{dto.UserId}/reset-password", dto);
             return (success, error);
         }
 
@@ -90,8 +90,17 @@ namespace SenacGames.Desktop.Services
         public async Task<(bool Success, string ErrorMessage)> AssignRoleAsync(AssignRoleDto dto)
         {
             var (success, _, error) = await _http.PostAsync<object>(
-                $"/api/users/{dto.UserId}/roles", dto);
+                $"/api/usuarios/{dto.UserId}/roles", dto);
             return (success, error);
+        }
+
+        /// <summary>
+        /// Atualiza os dados de um usuário existente via PUT /api/Usuarios/{id}.
+        /// </summary>
+        public async Task<(bool Success, UsuarioResponseDto? Usuario, string ErrorMessage)>
+            UpdateAsync(string userId, UpdateUsuarioDto dto)
+        {
+            return await _http.PutAsync<UsuarioResponseDto>($"/api/usuarios/{userId}", dto);
         }
     }
 }

@@ -17,7 +17,9 @@ namespace SenacGames.Desktop.Forms
     public partial class UsuarioFormDialog : Form
     {
         /// <summary>DTO preenchido ao confirmar (OK)</summary>
-        public CreateUsuarioDto? CreateDto { get; private set; }
+        public CreateUsuarioDto? UsuarioDto { get; private set; }
+
+        public UpdateUsuarioDto? UpdateUsuarioDto { get; private set; }
 
         // =====================================================================
         // CONSTRUTOR
@@ -57,7 +59,7 @@ namespace SenacGames.Desktop.Forms
                 return;
             }
 
-            CreateDto = new CreateUsuarioDto
+            UsuarioDto = new CreateUsuarioDto
             {
                 Email = txtEmail.Text.Trim(),
                 Password = txtSenha.Text,
@@ -66,6 +68,12 @@ namespace SenacGames.Desktop.Forms
             };
 
             this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
     }

@@ -52,9 +52,12 @@ namespace SenacGames.Desktop.UserControls
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             lblTitulo = new Label();
             lblInfo = new Label();
             pnlToolbar = new Panel();
+            btnEditar = new Guna.UI2.WinForms.Guna2Button();
             txtPesquisa = new Guna.UI2.WinForms.Guna2TextBox();
             btnNovo = new Guna.UI2.WinForms.Guna2Button();
             btnExcluir = new Guna.UI2.WinForms.Guna2Button();
@@ -90,6 +93,7 @@ namespace SenacGames.Desktop.UserControls
             // pnlToolbar
             // 
             pnlToolbar.BackColor = Color.White;
+            pnlToolbar.Controls.Add(btnEditar);
             pnlToolbar.Controls.Add(txtPesquisa);
             pnlToolbar.Controls.Add(btnNovo);
             pnlToolbar.Controls.Add(btnExcluir);
@@ -99,11 +103,30 @@ namespace SenacGames.Desktop.UserControls
             pnlToolbar.Size = new Size(762, 56);
             pnlToolbar.TabIndex = 2;
             // 
+            // btnEditar
+            // 
+            btnEditar.BorderRadius = 10;
+            btnEditar.CustomizableEdges = customizableEdges1;
+            btnEditar.DisabledState.BorderColor = Color.DarkGray;
+            btnEditar.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnEditar.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnEditar.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnEditar.FillColor = Color.FromArgb(0, 77, 147);
+            btnEditar.Font = new Font("Segoe UI", 9F);
+            btnEditar.ForeColor = Color.White;
+            btnEditar.Location = new Point(431, 9);
+            btnEditar.Name = "btnEditar";
+            btnEditar.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnEditar.Size = new Size(90, 41);
+            btnEditar.TabIndex = 4;
+            btnEditar.Text = "✏️ Editar";
+            btnEditar.Click += btnEditar_Click;
+            // 
             // txtPesquisa
             // 
             txtPesquisa.BorderColor = Color.FromArgb(224, 228, 235);
             txtPesquisa.BorderRadius = 6;
-            txtPesquisa.CustomizableEdges = customizableEdges1;
+            txtPesquisa.CustomizableEdges = customizableEdges3;
             txtPesquisa.DefaultText = "";
             txtPesquisa.FillColor = Color.FromArgb(245, 247, 250);
             txtPesquisa.Font = new Font("Segoe UI", 9.5F);
@@ -111,7 +134,7 @@ namespace SenacGames.Desktop.UserControls
             txtPesquisa.Name = "txtPesquisa";
             txtPesquisa.PlaceholderText = "🔍 Pesquisar por email...";
             txtPesquisa.SelectedText = "";
-            txtPesquisa.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            txtPesquisa.ShadowDecoration.CustomizableEdges = customizableEdges4;
             txtPesquisa.Size = new Size(250, 38);
             txtPesquisa.TabIndex = 0;
             // 
@@ -119,28 +142,29 @@ namespace SenacGames.Desktop.UserControls
             // 
             btnNovo.Animated = true;
             btnNovo.BorderRadius = 6;
-            btnNovo.CustomizableEdges = customizableEdges3;
+            btnNovo.CustomizableEdges = customizableEdges5;
             btnNovo.FillColor = Color.FromArgb(40, 167, 69);
             btnNovo.Font = new Font("Segoe UI", 9F);
             btnNovo.ForeColor = Color.White;
             btnNovo.Location = new Point(270, 9);
             btnNovo.Name = "btnNovo";
-            btnNovo.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            btnNovo.ShadowDecoration.CustomizableEdges = customizableEdges6;
             btnNovo.Size = new Size(140, 38);
             btnNovo.TabIndex = 1;
             btnNovo.Text = "+ Novo Usuário";
+            btnNovo.Click += btnNovo_Click;
             // 
             // btnExcluir
             // 
             btnExcluir.Animated = true;
             btnExcluir.BorderRadius = 6;
-            btnExcluir.CustomizableEdges = customizableEdges5;
+            btnExcluir.CustomizableEdges = customizableEdges7;
             btnExcluir.FillColor = Color.FromArgb(220, 53, 69);
             btnExcluir.Font = new Font("Segoe UI", 9F);
             btnExcluir.ForeColor = Color.White;
-            btnExcluir.Location = new Point(422, 9);
+            btnExcluir.Location = new Point(543, 9);
             btnExcluir.Name = "btnExcluir";
-            btnExcluir.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            btnExcluir.ShadowDecoration.CustomizableEdges = customizableEdges8;
             btnExcluir.Size = new Size(100, 38);
             btnExcluir.TabIndex = 2;
             btnExcluir.Text = "🗑 Excluir";
@@ -149,13 +173,13 @@ namespace SenacGames.Desktop.UserControls
             // 
             btnAtualizar.Animated = true;
             btnAtualizar.BorderRadius = 6;
-            btnAtualizar.CustomizableEdges = customizableEdges7;
+            btnAtualizar.CustomizableEdges = customizableEdges9;
             btnAtualizar.FillColor = Color.FromArgb(150, 160, 175);
             btnAtualizar.Font = new Font("Segoe UI", 9F);
             btnAtualizar.ForeColor = Color.White;
-            btnAtualizar.Location = new Point(534, 9);
+            btnAtualizar.Location = new Point(649, 9);
             btnAtualizar.Name = "btnAtualizar";
-            btnAtualizar.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            btnAtualizar.ShadowDecoration.CustomizableEdges = customizableEdges10;
             btnAtualizar.Size = new Size(110, 38);
             btnAtualizar.TabIndex = 3;
             btnAtualizar.Text = "↺ Atualizar";
@@ -199,9 +223,12 @@ namespace SenacGames.Desktop.UserControls
             Name = "UsuariosUserControl";
             Padding = new Padding(24);
             Size = new Size(805, 501);
+            Load += UsuariosUserControl_Load;
             pnlToolbar.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)gridUsuarios).EndInit();
             ResumeLayout(false);
         }
+
+        private Guna.UI2.WinForms.Guna2Button btnEditar;
     }
 }
