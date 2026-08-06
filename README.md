@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # SenacGames
 
 > Aplicação completa ASP.NET Core em arquitetura de camadas para ensino.
@@ -311,3 +312,6 @@ dotnet ef database update --project SenacGames.Infrastructure --startup-project 
 ## Licença
 
 Projeto didático desenvolvido para o Senac — uso educacional.
+=======
+# SenacGames-Project-FULL
+>>>>>>> c1aa864fa408ff9859524656b110f27cda17684e
