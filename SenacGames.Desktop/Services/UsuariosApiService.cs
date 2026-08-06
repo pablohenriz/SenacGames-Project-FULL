@@ -94,13 +94,11 @@ namespace SenacGames.Desktop.Services
             return (success, error);
         }
 
-        /// <summary>
-        /// Atualiza os dados de um usuário existente via PUT /api/Usuarios/{id}.
-        /// </summary>
         public async Task<(bool Success, UsuarioResponseDto? Usuario, string ErrorMessage)>
-            UpdateAsync(string userId, UpdateUsuarioDto dto)
+                UpdateAsync(string id, UpdateUsuarioDto dto)
         {
-            return await _http.PutAsync<UsuarioResponseDto>($"/api/usuarios/{userId}", dto);
+            return await _http.PutAsync<UsuarioResponseDto>($"/api/usuarios/{id}", dto);
         }
     }
 }
+

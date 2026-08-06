@@ -27,10 +27,10 @@ namespace SenacGames.Desktop.Helpers
         /// </summary>
         public UserResponseDto? CurrentUser { get; private set; }
 
-         ///<summary>
-         ///indica se tem algum usuário autenticado na sessão
-         ///</summary>
-         public bool IsAuthencticated => CurrentUser != null;
+        ///<summary>
+        ///indica se tem algum usuário autenticado na sessão
+        ///</summary>
+        public bool IsAuthencticated => CurrentUser != null;
 
         ///<summary>
         ///indica se o usuário autenticado é um Administrador.
@@ -45,7 +45,7 @@ namespace SenacGames.Desktop.Helpers
         /// </summary>
         public void SetUser(UserResponseDto user)
         {
-            CurrentUser = user; 
+            CurrentUser = user;
         }
 
         ///<summary>
@@ -54,7 +54,7 @@ namespace SenacGames.Desktop.Helpers
         ///</summary>   
         public void Clear()
         {
-            CurrentUser = null; 
+            CurrentUser = null;
         }
 
         ///<summary>
@@ -75,7 +75,7 @@ namespace SenacGames.Desktop.Helpers
             // captura o que vem antes do @
             var at = email.IndexOf("@");
             // se houver ao menos 1 caractere antes do @ retorna o nome do usuário
-            return at > 0 ?  email[..at]: email; //
+            return at > 0 ? email[..at] : email; //
         }
     }
 }

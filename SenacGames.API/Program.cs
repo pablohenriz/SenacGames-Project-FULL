@@ -85,7 +85,6 @@ builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IUsuariosService, UsuariosService>();
 
-
 // =====================================================================
 // 4. CONTROLLERS
 // =====================================================================

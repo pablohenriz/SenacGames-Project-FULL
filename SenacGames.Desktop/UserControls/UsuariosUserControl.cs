@@ -17,22 +17,25 @@ namespace SenacGames.Desktop.UserControls
 {
     public partial class UsuariosUserControl : UserControl
     {
-        // =====================================
-        // SERVIÇOS (Inicializados no load)
-        // =====================================
+        /// =====================================
+        /// SERVIÇOS (Inicializados no load) 
+        /// =====================================
+
         private UsuariosApiService? _UsuarioService = null;
 
-        // =====================================
-        // Dados
-        // =====================================
+
+        /// =====================================
+        /// Dados 
+        /// =====================================
         private List<UsuarioResponseDto> _todosUsuarios = new();
+
 
         public UsuariosUserControl()
         {
             InitializeComponent();
         }
 
-        private async void UsuariosUserControl_Load(object sender, EventArgs e)
+        private void UsuariosUserControl_Load(object sender, EventArgs e)
         {
             if (DesignMode) return;
 
@@ -40,7 +43,7 @@ namespace SenacGames.Desktop.UserControls
             SenacTheme.AplicarEstiloGrid(gridUsuarios);
             ConfigurarPermissões();
 
-            await CarregarDadosAsync();
+            _ = CarregarDadosAsync();
         }
 
         private async Task CarregarDadosAsync()
@@ -53,7 +56,7 @@ namespace SenacGames.Desktop.UserControls
 
                 if (usuarios != null)
                 {
-                    _todosUsuarios = usuarios.ToList();
+                    _todosUsuarios = usuarios;
                     foreach (var u in usuarios)
                     {
                         // Adiciona as colunas na mesma ordem em que foram criadas no DataGridView
@@ -72,62 +75,103 @@ namespace SenacGames.Desktop.UserControls
 
         private void ConfigurarPermissões()
         {
-            // Verifica se o usuário logado é administrador
+            //Verifica se o usuário logado é administrador
             bool isAdmin = SessionManager.Instance.IsAdmin;
-
-            // Se não for admin, desabilita os botões de gerenciamento
+            //Se não for admin, desabilita os botões de gerenciamento
             btnNovo.Enabled = isAdmin;
-            btnEditar.Enabled = isAdmin;
+
             btnExcluir.Enabled = isAdmin;
         }
 
+
         private void txtPesquisa_TextChanged(object sender, EventArgs e) => FiltrarUsuarios(txtPesquisa.Text);
+
 
         private void FiltrarUsuarios(string filtro)
         {
             var usuariosFiltrados = _todosUsuarios
                 .Where(u => u.Email.Contains(filtro, StringComparison.OrdinalIgnoreCase))
                 .ToList();
-
             gridUsuarios.Rows.Clear();
-
             foreach (var u in usuariosFiltrados)
             {
                 gridUsuarios.Rows.Add(u.Id, u.Email, u.PerfilPrincipal);
             }
+
         }
 
         private async void btnNovo_Click(object sender, EventArgs e)
         {
             using var form = new UsuarioFormDialog();
-
             if (form.ShowDialog() == DialogResult.OK && form.UsuarioDto != null)
             {
                 var (success, _, error) = await _UsuarioService.CreateAsync(form.UsuarioDto);
-
                 if (success)
                 {
                     MessageBox.Show("✅ Usuário criado com sucesso!",
                         "Sucesso",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
-
                     await CarregarDadosAsync();
                 }
                 else
                 {
                     MessageBox.Show($"❌ {error}",
-                        "Erro",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
+                    "Erro",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
                 }
             }
         }
 
-        private async void btnExcluir_Click(object sender, EventArgs e)
+        private UsuarioResponseDto? ObterUsuarioSelecionado()
+        {
+            if (gridUsuarios.SelectedRows.Count == 0) return null;
+            var row = gridUsuarios.SelectedRows[0];
+            var id = row.Cells["colId"].Value?.ToString();
+            return _todosUsuarios.FirstOrDefault(u => u.Id == id);
+        }
+
+        private async void btnAtualizar_Click(object sender, EventArgs e) => await CarregarDadosAsync();
+
+        private async void btnEditar_Click(object sender, EventArgs e)
+        {
+            var usuario = ObterUsuarioSelecionado();
+            if (usuario == null)
+            {
+                MessageBox.Show("Selecione um usuário para editar.",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
+            }
+
+            using var form = new UsuarioFormDialog(usuario);
+            if (form.ShowDialog() == DialogResult.OK && form.UsuarioUpdateDto != null)
+            {
+                var (success, _, error) = await _UsuarioService.UpdateAsync(usuario.Id, form.UsuarioUpdateDto);
+                if (success)
+                {
+                    MessageBox.Show("✅ Usuário atualizado com sucesso!",
+                        "Sucesso",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                    await CarregarDadosAsync();
+                }
+                else
+                {
+                    MessageBox.Show($"❌ {error}",
+                    "Erro",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private async void btnExcluir_Click_1(object sender, EventArgs e)
         {
             var u = ObterUsuarioSelecionado();
-
             if (u == null)
             {
                 MessageBox.Show("Selecione um usuário para excluir.", "Aviso",
@@ -144,14 +188,12 @@ namespace SenacGames.Desktop.UserControls
             if (conf != DialogResult.Yes) return;
 
             var (success, error) = await _UsuarioService.DeleteAsync(u.Id);
-
             if (success)
             {
                 MessageBox.Show("✅ Usuário excluído com sucesso!",
                     "Sucesso",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
-
                 await CarregarDadosAsync();
             }
             else
@@ -160,56 +202,6 @@ namespace SenacGames.Desktop.UserControls
                     "Erro",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
-            }
-        }
-
-        private UsuarioResponseDto? ObterUsuarioSelecionado()
-        {
-            if (gridUsuarios.SelectedRows.Count == 0) return null;
-
-            var row = gridUsuarios.SelectedRows[0];
-            var id = row.Cells["colId"].Value?.ToString();
-
-            return _todosUsuarios.FirstOrDefault(u => u.Id == id);
-        }
-
-        private async void btnAtualizar_Click(object sender, EventArgs e) => await CarregarDadosAsync();
-
-        private async void btnEditar_Click(object sender, EventArgs e)
-        {
-            var usuario = ObterUsuarioSelecionado();
-
-            if (usuario == null)
-            {
-                MessageBox.Show("Selecione um usuário para editar.",
-                    "Aviso",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-                return;
-            }
-
-            using var form = new UsuarioFormDialog();
-
-            if (form.ShowDialog() == DialogResult.OK && form.UpdateUsuarioDto != null)
-            {
-                var (success, _, error) = await _UsuarioService.UpdateAsync(usuario.Id, form.UpdateUsuarioDto);
-
-                if (success)
-                {
-                    MessageBox.Show("✅ Usuário atualizado com sucesso!",
-                        "Sucesso",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
-
-                    await CarregarDadosAsync();
-                }
-                else
-                {
-                    MessageBox.Show($"❌ {error}",
-                        "Erro",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
-                }
             }
         }
     }

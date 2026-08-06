@@ -29,7 +29,7 @@ namespace SenacGames.Application.Services
                 result.Add(new UsuarioDto
                 {
                     Id = user.Id,
-                    Nome = user.UserName ?? string.Empty,
+                    UserName = user.UserName ?? string.Empty,
                     Email = user.Email ?? string.Empty,
                     Roles = roles.ToList()
                 });
@@ -48,7 +48,7 @@ namespace SenacGames.Application.Services
             return new UsuarioDto
             {
                 Id = user.Id,
-                Nome = user.UserName ?? string.Empty,
+                UserName = user.UserName ?? string.Empty,
                 Email = user.Email ?? string.Empty,
                 Roles = roles.ToList()
             };
@@ -57,14 +57,13 @@ namespace SenacGames.Application.Services
         public async Task<(bool Success, UsuarioDto? Usuario, string ErrorMessage)> CreateAsync(CreateUsuarioDto dto)
         {
             // Validação simples (corrigido para !=)
-            if (dto.Senha != dto.ConfirmarSenha)
+            if (dto.Password != dto.ConfirmPassword)
                 return (false, null, "As senhas não coincidem.");
 
             // Criar o modelo base do Identity (username = email, já que não há campo "Nome")
             var user = new IdentityUser { UserName = dto.Email, Email = dto.Email };
-
             // Aqui a mágica do Hash de senha acontece
-            var result = await _userManager.CreateAsync(user, dto.Senha);
+            var result = await _userManager.CreateAsync(user, dto.Password);
             if (!result.Succeeded)
             {
                 var mensagens = string.Join(" ", result.Errors.Select(e => e.Description));
@@ -81,7 +80,7 @@ namespace SenacGames.Application.Services
             var createdUser = new UsuarioDto
             {
                 Id = user.Id,
-                Nome = user.UserName ?? string.Empty,
+                UserName = user.UserName ?? string.Empty,
                 Email = user.Email ?? string.Empty,
                 Roles = new List<string> { role }
             };
@@ -105,14 +104,14 @@ namespace SenacGames.Application.Services
             }
 
             // Se enviou uma nova senha, podemos atualizar também
-            if (!string.IsNullOrEmpty(dto.Senha))
+            if (!string.IsNullOrEmpty(dto.Password))
             {
-                if (dto.Senha != dto.ConfirmarSenha)
+                if (dto.Password != dto.ConfirmPassword)
                     return (false, null, "As senhas não coincidem.");
 
                 // Remover senha antiga e adicionar a nova (ou usar ChangePassword)
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-                var passResult = await _userManager.ResetPasswordAsync(user, token, dto.Senha);
+                var passResult = await _userManager.ResetPasswordAsync(user, token, dto.Password);
                 if (!passResult.Succeeded)
                 {
                     var mensagens = string.Join(" ", passResult.Errors.Select(e => e.Description));
@@ -138,7 +137,7 @@ namespace SenacGames.Application.Services
             var updatedUser = new UsuarioDto
             {
                 Id = user.Id,
-                Nome = user.UserName ?? string.Empty,
+                UserName = user.UserName ?? string.Empty,
                 Email = user.Email ?? string.Empty,
                 Roles = rolesAtualizadas.ToList()
             };

@@ -137,6 +137,7 @@ namespace SenacGames.Desktop.UserControls
             txtPesquisa.ShadowDecoration.CustomizableEdges = customizableEdges4;
             txtPesquisa.Size = new Size(250, 38);
             txtPesquisa.TabIndex = 0;
+            txtPesquisa.TextChanged += txtPesquisa_TextChanged;
             // 
             // btnNovo
             // 
@@ -168,6 +169,7 @@ namespace SenacGames.Desktop.UserControls
             btnExcluir.Size = new Size(100, 38);
             btnExcluir.TabIndex = 2;
             btnExcluir.Text = "🗑 Excluir";
+            btnExcluir.Click += btnExcluir_Click_1;
             // 
             // btnAtualizar
             // 
@@ -183,6 +185,7 @@ namespace SenacGames.Desktop.UserControls
             btnAtualizar.Size = new Size(110, 38);
             btnAtualizar.TabIndex = 3;
             btnAtualizar.Text = "↺ Atualizar";
+            btnAtualizar.Click += btnAtualizar_Click;
             // 
             // gridUsuarios
             // 

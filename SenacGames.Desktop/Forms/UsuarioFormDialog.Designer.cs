@@ -192,7 +192,7 @@ namespace SenacGames.Desktop.Forms
             btnSalvar.Size = new Size(160, 42);
             btnSalvar.TabIndex = 9;
             btnSalvar.Text = "💾 Criar Usuário";
-            btnSalvar.Click += BtnSalvar_Click;
+            btnSalvar.Click += btnSalvar_Click_1;
             // 
             // btnCancelar
             // 
@@ -210,7 +210,7 @@ namespace SenacGames.Desktop.Forms
             btnCancelar.Size = new Size(100, 42);
             btnCancelar.TabIndex = 10;
             btnCancelar.Text = "Cancelar";
-            btnCancelar.Click += btnCancelar_Click;
+            btnCancelar.Click += btnCancelar_Click_1;
             // 
             // UsuarioFormDialog
             // 
